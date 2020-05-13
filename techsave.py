@@ -19,7 +19,7 @@ class app_info: # basic app info like version
 
 class component:
     def __init__(self, priority, type, url, name, price):
-        self.log(f"new component created! - [{priority}] {price}€ | {type} / {name} / {url}")
+        self.log(f"new component created! - [{priority}] {price}e | {type} / {name} / {url}")
         self.priority = priority
         self.type = type
         self.url = url
@@ -29,3 +29,22 @@ class component:
         log_append = open("log.txt", "a")
         log_append.write(f"[ {date_time_now} ] - [ {message} ]\n")
         log_append.close()
+
+class money:
+    def __init__(self, balance):
+        self.log(f"new balance set, with value of {balance}e")
+        self.balance = balance
+    def log(self, message):
+        log_append = open("log.txt", "a")
+        log_append.write(f"[ {date_time_now} ] - [ {message} ]\n")
+        log_append.close()
+    def add_money(self, money_added, message = "no message given"):
+        self.balance += int(money_added)
+        self.log(f"money added! - added: {money_added}e / new total: {self.balance}e - message: {message}")
+        return(f"money added! - added: {money_added}e / new total: {self.balance}e - message: {message}")
+    def withdraw_money(self, money_withdrawn, message = "no message given"):
+        self.balance -= int(money_withdrawn)
+        self.log(f"money withdrawn! - withdrawm: {money_withdrawn}e / new total: {self.balance}e - message: {message}")
+        return(f"money withdrawn! - withdrawm: {money_withdrawn}e / new total: {self.balance}e - message: {message}")
+    def get_balance(self):
+        return(self.balance)
