@@ -3,3 +3,4 @@ env/*
 .vscode/*
 todo.txt
 log.txt
+data.tsp
