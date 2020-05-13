@@ -48,3 +48,7 @@ class money:
         return(f"money withdrawn! - withdrawm: {money_withdrawn}e / new total: {self.balance}e - message: {message}")
     def get_balance(self):
         return(self.balance)
+
+def log(message):
+    log_append = open("log.txt", "a")
+    log_append.write(f"[ {date_time_now} ] - [ {message} ]\n")
