@@ -55,27 +55,27 @@ def log(message):
     log_append.write(f"[ {date_time_now} ] - [ {message} ]\n")
 
 tic = time.time() # Initialization starts
-print(f"[{Fore.CYAN}tsp\init{Style.RESET_ALL}] beginning {app_info.name} v{app_info.version} initialization ... [{Fore.GREEN}READY{Style.RESET_ALL}]")
-print(f"[{Fore.CYAN}tsp\init\data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}.\data.tsp{Style.RESET_ALL} exists ... ", end="")
+print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] beginning {app_info.name} v{app_info.version} initialization ... [{Fore.GREEN}READY{Style.RESET_ALL}]")
+print(f"[{Fore.CYAN}tsp/init/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="")
 if path.isfile("./data.tsp") == True:
     print(f"[{Fore.GREEN}FOUND{Style.RESET_ALL}]")
-    print(f"[{Fore.CYAN}tsp\init\data_load{Style.RESET_ALL}] loading {Style.BRIGHT}.\data.tsp{Style.RESET_ALL} ... ", end="")
+    print(f"[{Fore.CYAN}tsp/init/data_load{Style.RESET_ALL}] loading {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="")
     tsp_dict = pickle.load(open("./data.tsp", "rb"))
     print(f"[{Fore.GREEN}OK{Style.RESET_ALL}]")
 else:
     print(f"[{Fore.RED}NOT_FOUND{Style.RESET_ALL}]")
-    print(f"[{Fore.CYAN}tsp\init\data_create{Style.RESET_ALL}] initializing default values  ... ", end="")
+    print(f"[{Fore.CYAN}tsp/init/data_create{Style.RESET_ALL}] initializing default values  ... ", end="")
     tsp_dict = {}
     tsp_dict["components"] = []
     tsp_dict["finances"] = money(0)
     print(f"[{Fore.GREEN}OK{Style.RESET_ALL}]")
-    print(f"[{Fore.CYAN}tsp\init\data_save{Style.RESET_ALL}] saving {Style.BRIGHT}.\data.tsp{Style.RESET_ALL} ... ", end="")
+    print(f"[{Fore.CYAN}tsp/init/data_save{Style.RESET_ALL}] saving {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="")
     pickle.dump(tsp_dict, open("./data.tsp", "wb"))
     print(f"[{Fore.GREEN}OK{Style.RESET_ALL}]")
 toc = time.time()
 tictoc = round(toc - tic, 3)
-print(f"[{Fore.CYAN}tsp\init{Style.RESET_ALL}] initialization completed in {Style.BRIGHT}{tictoc}s{Style.RESET_ALL}, welcome to {Style.BRIGHT}{app_info.name} v{app_info.version} {Style.RESET_ALL}by {Style.BRIGHT}{app_info.by}{Style.RESET_ALL}")
-print(f"[{Fore.CYAN}tsp\init\main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
+print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] initialization completed in {Style.BRIGHT}{tictoc}s{Style.RESET_ALL}, welcome to {Style.BRIGHT}{app_info.name} v{app_info.version} {Style.RESET_ALL}by {Style.BRIGHT}{app_info.by}{Style.RESET_ALL}")
+print(f"[{Fore.CYAN}tsp/init/main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
 # input() #! remember to activate this when finished!
 os.system("cls")
 
@@ -95,8 +95,8 @@ def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "no
             print(f"    [{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} {Fore.BLUE}{selection_print}{Style.RESET_ALL}")
             command_list.append("null")
     print("\n" + footer_line + "\n")
-    print(f"[{Fore.CYAN}tsp\{current_menu}\cmd{Style.RESET_ALL}] you are in {Fore.BLUE}{current_menu}{Style.RESET_ALL}, enter your command [{Fore.MAGENTA}1-{len(command_list)}{Style.RESET_ALL}]: ", end="")
+    print(f"[{Fore.CYAN}tsp/{current_menu}/cmd{Style.RESET_ALL}] you are in {Fore.BLUE}{current_menu}{Style.RESET_ALL}, enter your command [{Fore.MAGENTA}1-{len(command_list)}{Style.RESET_ALL}]: ", end="")
     return_var = input()
-    return()
+    return(return_var)
 
 menumaker("main_menu", 80, "variable_menu", "stranger_things_menu", "jeejee_menu")
