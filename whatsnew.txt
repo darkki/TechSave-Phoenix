@@ -1,0 +1,11 @@
+TechSave-Phoenix v14052020|Dev
+- Fixes & modifications
+- Added menu making function
+- Added basic loading/saving
+
+TechSave-Phoenix v13052020|Dev
+- Added very basic finance/component classes
+- Added color support
+- Added basic initialization
+- Added logging
+- Devlopment started / Initial commit

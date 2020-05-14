@@ -15,7 +15,7 @@ import pickle # module imported for loading/saving dictionaries/objects
 
 class app_info: # basic app info like version
     name = "TechSave Phoenix"
-    version = "13052020|Dev"
+    version = "14052020|Dev"
     by = "darkk!"
 
 class component:
