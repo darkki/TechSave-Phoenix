@@ -8,7 +8,7 @@ from colorama import init # module imported for color support
 init()
 from colorama import Fore,Back,Style
 
-import os # module imported for checking if file exists
+import os # module imported for checking if file exists and system functions
 from os import path
 
 import pickle # module imported for loading/saving dictionaries/objects
@@ -56,10 +56,10 @@ def log(message):
 
 tic = time.time()
 print(f"[{Fore.CYAN}tsp\init{Style.RESET_ALL}] beginning {app_info.name} v{app_info.version} initialization ... [{Fore.GREEN}READY{Style.RESET_ALL}]")
-print(f"[{Fore.CYAN}tsp\init\data_check{Style.RESET_ALL}] checking if .\data.tsp exists ... ", end="")
+print(f"[{Fore.CYAN}tsp\init\data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}.\data.tsp{Style.RESET_ALL} exists ... ", end="")
 if path.isfile("./data.tsp") == True:
     print(f"[{Fore.GREEN}FOUND{Style.RESET_ALL}]")
-    print(f"[{Fore.CYAN}tsp\init\data_load{Style.RESET_ALL}] loading .\data.tsp ... ", end="")
+    print(f"[{Fore.CYAN}tsp\init\data_load{Style.RESET_ALL}] loading {Style.BRIGHT}.\data.tsp{Style.RESET_ALL} ... ", end="")
     tsp_dict = pickle.load(open("./data.tsp", "rb"))
     print(f"[{Fore.GREEN}OK{Style.RESET_ALL}]")
 else:
@@ -69,9 +69,12 @@ else:
     tsp_dict["components"] = []
     tsp_dict["finances"] = money(0)
     print(f"[{Fore.GREEN}OK{Style.RESET_ALL}]")
-    print(f"[{Fore.CYAN}tsp\init\data_save{Style.RESET_ALL}] saving .\data.tsp ... ", end="")
+    print(f"[{Fore.CYAN}tsp\init\data_save{Style.RESET_ALL}] saving {Style.BRIGHT}.\data.tsp{Style.RESET_ALL} ... ", end="")
     pickle.dump(tsp_dict, open("./data.tsp", "wb"))
     print(f"[{Fore.GREEN}OK{Style.RESET_ALL}]")
 toc = time.time()
 tictoc = round(toc - tic, 3)
 print(f"[{Fore.CYAN}tsp\init{Style.RESET_ALL}] initialization completed in {Style.BRIGHT}{tictoc}s{Style.RESET_ALL}, welcome to {Style.BRIGHT}{app_info.name} v{app_info.version} {Style.RESET_ALL}by {Style.BRIGHT}{app_info.by}{Style.RESET_ALL}")
+print(f"[{Fore.CYAN}tsp\init\main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
+input()
+os.system("cls")
