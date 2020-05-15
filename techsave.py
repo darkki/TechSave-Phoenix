@@ -99,4 +99,27 @@ def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "no
     return_var = input()
     return(return_var)
 
+def flashy_loader(load1, load2, load1_color, load2_color, finished, fin_color, length, pausemin = 0.2, pausemax = 0.4):
+    print("[" + load2, end="", flush=True)
+    last_load = ""
+    firstrun = True
+    for idx in range(length):
+        if idx % 2 == 0:
+            if firstrun == True:
+                backstr = (len(load2) + 1) * "\b"
+            else:
+                backstr = (len(load2) + 2) * "\b"
+            firstrun = False
+            time.sleep(0.2)
+            print(f"{backstr}[{Style.BRIGHT}{load1}{Style.RESET_ALL}]", end="", flush=True)
+            last_load = load1
+        else:
+            firstrun = False
+            time.sleep(0.2)
+            backstr = (len(load1) + 2) * "\b"
+            print(f"{backstr}[{Fore.BLUE}{load2}{Style.RESET_ALL}]", end="", flush=True)
+            last_load = load2
+    backstr = "\b" * (len(last_load) + 2)
+    print(f"{backstr}[{Fore.GREEN}{finished}{Style.RESET_ALL}]          ")
+
 menumaker("main_menu", 80, "variable_menu", "stranger_things_menu", "jeejee_menu")
