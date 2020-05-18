@@ -124,18 +124,21 @@ def flashy_loader(load1, load2, load1_color, load2_color, finished, fin_color, l
     backstr = "\b" * (len(last_load) + 2)
     print(f"{backstr}[{Fore.GREEN}{finished}{Style.RESET_ALL}]          ")
 
-def progress_bar(lenght, finished, pausemin, pausemax):
-    print(f"[{Style.BRIGHT}", end="", flush=True)
-    last_printed = ":"
+def progress_bar(lenght, finished, pausemin, pausemax): #! :. !
+    bar_lenght = lenght / 2
+    filler = " " * int(bar_lenght)
+    bar = "[" + filler + "]"
+    # print(bar)
+    # time.sleep(2)
+    print(f"{bar}", end="", flush=True)
     firstrun = True
-    for idx in range(lenght):
+    del_len = int(bar_lenght) + 1
+    for idx in range(int(bar_lenght)):
         time.sleep(random.uniform(pausemin, pausemax))
-        if last_printed == ":":
-            last_printed = "."
-        else:
-            last_printed = ":"
-            print(f"\b", end="", flush=True)
-        print(f"{last_printed}", end="", flush=True)
-    print(f"{Style.RESET_ALL}] - [{Fore.GREEN}{finished}{Style.RESET_ALL}]")
+        back_print = int(del_len) * "\b"
+        filler = (del_len - 2) * " "
+        del_len -= 1
+        print(f"{back_print}{Fore.GREEN}:{Style.RESET_ALL}{filler}]", end="", flush=True)
+    print(f"{Style.RESET_ALL} - [{Fore.GREEN}{finished}{Style.RESET_ALL}]")
 
 menumaker("main_menu", 80, "variable_menu", "stranger_things_menu", "jeejee_menu")
