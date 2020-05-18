@@ -13,6 +13,8 @@ from os import path
 
 import pickle # module imported for loading/saving dictionaries/objects
 
+import random # module imported for randomness
+
 class app_info: # basic app info like version
     name = "TechSave Phoenix"
     version = "14052020|Dev"
@@ -121,5 +123,19 @@ def flashy_loader(load1, load2, load1_color, load2_color, finished, fin_color, l
             last_load = load2
     backstr = "\b" * (len(last_load) + 2)
     print(f"{backstr}[{Fore.GREEN}{finished}{Style.RESET_ALL}]          ")
+
+def progress_bar(lenght, finished, pausemin, pausemax):
+    print(f"[{Style.BRIGHT}", end="", flush=True)
+    last_printed = ":"
+    firstrun = True
+    for idx in range(lenght):
+        time.sleep(random.uniform(pausemin, pausemax))
+        if last_printed == ":":
+            last_printed = "."
+        else:
+            last_printed = ":"
+            print(f"\b", end="", flush=True)
+        print(f"{last_printed}", end="", flush=True)
+    print(f"{Style.RESET_ALL}] - [{Fore.GREEN}{finished}{Style.RESET_ALL}]")
 
 menumaker("main_menu", 80, "variable_menu", "stranger_things_menu", "jeejee_menu")
