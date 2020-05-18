@@ -110,12 +110,12 @@ def flashy_loader(load1, load2, load1_color, load2_color, finished, fin_color, l
             else:
                 backstr = (len(load2) + 2) * "\b"
             firstrun = False
-            time.sleep(0.2)
+            time.sleep(random.uniform(pausemin, pausemax))
             print(f"{backstr}[{Style.BRIGHT}{load1}{Style.RESET_ALL}]", end="", flush=True)
             last_load = load1
         else:
             firstrun = False
-            time.sleep(0.2)
+            time.sleep(random.uniform(pausemin, pausemax))
             backstr = (len(load1) + 2) * "\b"
             print(f"{backstr}[{Fore.BLUE}{load2}{Style.RESET_ALL}]", end="", flush=True)
             last_load = load2
