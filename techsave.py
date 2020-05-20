@@ -104,7 +104,7 @@ def progress_bar(lenght, finished, pausemin, pausemax):
 
 tic = time.time() # Initialization starts
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] beginning {app_info.name} v{app_info.version} initialization ... ", end="", flush=True)
-flashy_loader("INIT", "INIT", "BLUE", "GREEN", "READY!", "GREEN", 15, 0.1, 0.3)
+# flashy_loader("INIT", "INIT", "BLUE", "GREEN", "READY!", "GREEN", 15, 0.1, 0.3) #! activate!
 print(f"[{Fore.CYAN}tsp/init/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="")
 if path.isfile("./data.tsp") == True:
     print(f"[{Fore.GREEN}FOUND!{Style.RESET_ALL}]")
@@ -122,19 +122,20 @@ else:
     pickle.dump(tsp_dict, open("./data.tsp", "wb"))
     print(f"[{Fore.GREEN}SAVED!{Style.RESET_ALL}]")
 print(f"[{Fore.CYAN}/tsp/init/db_crpt_chk{Style.RESET_ALL}] checking for database corruption ... ", end="", flush=True)
-progress_bar(18, "OK!", 0.1, 0.3)
+# prgress_bar(18, "OK!", 0.1, 0.3) #! activate!
 toc = time.time()
 tictoc = round(toc - tic, 3)
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] initialization completed in {Style.BRIGHT}{tictoc}s{Style.RESET_ALL}, welcome to {Style.BRIGHT}{app_info.name} v{app_info.version} {Style.RESET_ALL}by {Style.BRIGHT}{app_info.by}{Style.RESET_ALL}")
 print(f"[{Fore.CYAN}tsp/init/main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
-input() #! remember to activate this when finished!
+# input() #! remember to activate this when finished!
 os.system("cls")
 
 def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "not in use", selection_3 = "not in use", selection_4 = "not in use", selection_5 = "not in use", selection_6 = "not in use"):
     header_line = "] " + app_info.name + " v" + app_info.version + " by " + app_info.by + " ["
     header_line = header_line.center(width, "-")
-    footer_line = "] " + "NZTi!" + " ["
-    footer_line = footer_line.center(width, "-")
+    current_money = tsp_dict["finances"].get_balance()
+    footer_line = f"] {Style.BRIGHT}balance{Style.RESET_ALL}: {Fore.GREEN}{current_money}e{Style.RESET_ALL} ["
+    footer_line = footer_line.center(width + 17, "-")
     print(header_line + "\n")
     selection_list = [selection_1, selection_2, selection_3, selection_4, selection_5, selection_6]
     command_list = []
@@ -150,4 +151,10 @@ def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "no
     return_var = input()
     return(return_var)
 
-menumaker("main_menu", 80, "variable_menu", "stranger_things_menu", "jeejee_menu")
+entered_cmd = menumaker("main_menu", 80, "components_menu", "finances_menu", "load/save/reset_menu")
+main_menu_command_list = ["display_status!", "components_menu", "finances_menu", "load/save/reset_menu"]
+components_menu_command_list = ["list_components", "add_components", "delete_components"]
+finances_menu_command_list = ["view current balance"]
+
+# while exit_code == False:
+#     current_menu = "main_menu"
