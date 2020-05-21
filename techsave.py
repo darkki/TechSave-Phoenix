@@ -130,13 +130,27 @@ print(f"[{Fore.CYAN}tsp/init/main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}EN
 # input() #! remember to activate this when finished!
 os.system("cls")
 
+tsp_ascii = """            ___________           .__      _________                   
+            \__    ___/___   ____ |  |__  /   _____/____ ___  __ ____  
+              |    |_/ __ \_/ ___\|  |  \ \_____  \\__  \\  \/ // __ \ 
+              |    |\  ___/\  \___|   Y  \/        \/ __ \\   /\  ___/ 
+              |____| \___  >\___  >___|  /_______  (____  /\_/  \___  >
+                 ________\/.__  \/     \/        \/    .\/          \/ 
+                 \______   \  |__   ____   ____   ____ |__|__  ___     
+                  |     ___/  |  \ /  _ \_/ __ \ /    \|  \  \/  /     
+                  |    |   |   Y  (  <_> )  ___/|   |  \  |>    <      
+                  |____|   |___|  /\____/ \___  >___|  /__/__/\_ \     
+                                \/            \/     \/         \/     """
+
 def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "not in use", selection_3 = "not in use", selection_4 = "not in use", selection_5 = "not in use", selection_6 = "not in use"):
-    header_line = "] " + app_info.name + " v" + app_info.version + " by " + app_info.by + " ["
-    header_line = header_line.center(width, "-")
+    header_line = f"] {Style.BRIGHT}{app_info.name} {Style.RESET_ALL}v{Style.BRIGHT}{app_info.version} {Style.RESET_ALL}by{Style.BRIGHT} {app_info.by} {Style.RESET_ALL}["
+    header_line = header_line.center(width + 24, "-")
     current_money = tsp_dict["finances"].get_balance()
     footer_line = f"] {Style.BRIGHT}balance{Style.RESET_ALL}: {Fore.GREEN}{current_money}e{Style.RESET_ALL} ["
     footer_line = footer_line.center(width + 17, "-")
-    print(header_line + "\n")
+    print(header_line)
+    print(f"{Style.RESET_ALL}{Fore.CYAN}", end="") # color of ascii-art text
+    print(tsp_ascii)
     selection_list = [selection_1, selection_2, selection_3, selection_4, selection_5, selection_6]
     command_list = []
     for selection_idx in range(1, len(selection_list) + 1):
@@ -144,7 +158,7 @@ def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "no
         if selection_list[selection_idx - 1] == "not in use":
             pass
         else:
-            print(f"    [{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} {Fore.BLUE}{selection_print}{Style.RESET_ALL}")
+            print(f"    {Style.RESET_ALL}[{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} {Fore.BLUE}{selection_print}{Style.RESET_ALL}")
             command_list.append("null")
     print("\n" + footer_line + "\n")
     print(f"[{Fore.CYAN}tsp/{current_menu}/cmd{Style.RESET_ALL}] you are in {Fore.BLUE}{current_menu}{Style.RESET_ALL}, enter your command [{Fore.MAGENTA}1-{len(command_list)}{Style.RESET_ALL}]: ", end="")
