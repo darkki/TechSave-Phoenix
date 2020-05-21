@@ -158,7 +158,8 @@ def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "no
         if selection_list[selection_idx - 1] == "not in use":
             pass
         else:
-            print(f"    {Style.RESET_ALL}[{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} {Fore.BLUE}{selection_print}{Style.RESET_ALL}")
+            selection_print = selection_print.ljust(61, ".")
+            print(f"    {Style.RESET_ALL}[{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} [ {Fore.BLUE}{selection_print}{Style.RESET_ALL} ]")
             command_list.append("null")
     print("\n" + footer_line + "\n")
     print(f"[{Fore.CYAN}tsp/{current_menu}/cmd{Style.RESET_ALL}] you are in {Fore.BLUE}{current_menu}{Style.RESET_ALL}, enter your command [{Fore.MAGENTA}1-{len(command_list)}{Style.RESET_ALL}]: ", end="")
