@@ -17,7 +17,7 @@ import random # module imported for randomness
 
 class app_info: # basic app info like version
     name = "TechSave Phoenix"
-    version = "14052020|Dev"
+    version = "23052020|Dev"
     by = "darkk!"
 
 class component:
@@ -191,10 +191,5 @@ system_operations_menu = ["load_database", "save_database", "reset_database", "N
 menu_names_list = ["main_menu", "display_status!", "components_menu", "finances_menu", "system_operations_menu"]
 command_menu_list = ["components_menu", "finances_menu", "system_operations_menu"]
 menu_list = [main_menu, display_status, components_menu, finances_menu, system_operations_menu]
-# menu_dict = {"main_menu":main_menu, "components_menu":components_menu, "finances_menu":finances_menu}
 
 menumaker(99, "main_menu", "main_menu", 80, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
-# entered_cmd = menumaker("main_menu", 80, menu_dict["main_menu"][0], menu_dict["main_menu"][1], menu_dict["main_menu"][2], menu_dict["main_menu"][3], menu_dict["main_menu"][4], menu_dict["main_menu"][5])
-
-# while exit_code == False:
-#     current_menu = "main_menu"

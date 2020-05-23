@@ -1,3 +1,10 @@
+TechSave-Phoenix v23052020|Dev
+- Added flashy loader animation
+- Added progress-bar
+- Ascii-art text
+- Working basic menu traversing
+- Stylishing / Optimizations / Fixes / Re-Coding
+
 TechSave-Phoenix v14052020|Dev
 - Fixes & modifications
 - Added menu making function
