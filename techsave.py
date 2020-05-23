@@ -89,7 +89,7 @@ def progress_bar(lenght, finished, pausemin, pausemax):
         # print(f"idx: {idx} | idx_mod: {idx % 2}")
         # if idx == 1:
         #     print(f"")
-        back_needed = 0
+        # back_needed = 0
         if idx == lenght:
             time.sleep(random.uniform(pausemin, pausemax))
             print(f"{Fore.GREEN}:{Style.RESET_ALL}] - [{Fore.GREEN}DONE!{Style.RESET_ALL}]")
@@ -128,7 +128,6 @@ tictoc = round(toc - tic, 3)
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] initialization completed in {Style.BRIGHT}{tictoc}s{Style.RESET_ALL}, welcome to {Style.BRIGHT}{app_info.name} v{app_info.version} {Style.RESET_ALL}by {Style.BRIGHT}{app_info.by}{Style.RESET_ALL}")
 print(f"[{Fore.CYAN}tsp/init/main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
 # input() #! remember to activate this when finished!
-os.system("cls")
 
 tsp_ascii = """            ___________           .__      _________                   
             \__    ___/___   ____ |  |__  /   _____/____ ___  __ ____  
@@ -142,34 +141,60 @@ tsp_ascii = """            ___________           .__      _________
                   |____|   |___|  /\____/ \___  >___|  /__/__/\_ \     
                                 \/            \/     \/         \/     """
 
-def menumaker(current_menu, width, selection_1 = "not in use", selection_2 = "not in use", selection_3 = "not in use", selection_4 = "not in use", selection_5 = "not in use", selection_6 = "not in use"):
+def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 = "NA", selection_2 = "NA", selection_3 = "NA", selection_4 = "NA", selection_5 = "NA", selection_6 = "NA", command = "menu"):
+    os.system("cls")
     header_line = f"] {Style.BRIGHT}{app_info.name} {Style.RESET_ALL}v{Style.BRIGHT}{app_info.version} {Style.RESET_ALL}by{Style.BRIGHT} {app_info.by} {Style.RESET_ALL}["
     header_line = header_line.center(width + 24, "-")
     current_money = tsp_dict["finances"].get_balance()
     footer_line = f"] {Style.BRIGHT}balance{Style.RESET_ALL}: {Fore.GREEN}{current_money}e{Style.RESET_ALL} ["
     footer_line = footer_line.center(width + 17, "-")
-    print(header_line)
-    print(f"{Style.RESET_ALL}{Fore.CYAN}", end="") # color of ascii-art text
-    print(tsp_ascii)
-    selection_list = [selection_1, selection_2, selection_3, selection_4, selection_5, selection_6]
-    command_list = []
-    for selection_idx in range(1, len(selection_list) + 1):
-        selection_print = selection_list[selection_idx - 1]
-        if selection_list[selection_idx - 1] == "not in use":
-            pass
-        else:
-            selection_print = selection_print.ljust(61, ".")
-            print(f"    {Style.RESET_ALL}[{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} [ {Fore.BLUE}{selection_print}{Style.RESET_ALL} ]")
-            command_list.append("null")
-    print("\n" + footer_line + "\n")
-    print(f"[{Fore.CYAN}tsp/{current_menu}/cmd{Style.RESET_ALL}] you are in {Fore.BLUE}{current_menu}{Style.RESET_ALL}, enter your command [{Fore.MAGENTA}1-{len(command_list)}{Style.RESET_ALL}]: ", end="")
-    return_var = input()
-    return(return_var)
+    cmd = None
+    if previous_menu == "main_menu" and cmd_entered == 0: # if exit TSP is pressed
+        print(f"quit! quit! quit!")
+        return()
+    elif previous_menu in command_menu_list and not cmd_entered == 0 or previous_menu == "main_menu" and cmd_entered == 1:
+        print(f"doing command!")
+        return()
+    elif destination_menu in menu_names_list or destination_menu in menu_names_list and cmd_entered == 99: # if traversing between menus
+        print(header_line)
+        print(f"{Style.RESET_ALL}{Fore.CYAN}", end="") # color of ascii-art text
+        print(tsp_ascii)
+        selection_list = [selection_1, selection_2, selection_3, selection_4, selection_5, selection_6]
+        command_list = []
+        if destination_menu == "main_menu":
+            selection_list.insert(0, "exit_techsave_phoenix")
+        elif destination_menu in menu_names_list:
+            selection_list.insert(0, "exit_to_main_menu")
+        # for selection_idx in range(1, len(selection_list) + 1): # old
+        for selection_idx in range(0, len(selection_list)):
+            # selection_print = selection_list[selection_idx - 1] # old
+            selection_print = selection_list[selection_idx]
+            # if selection_list[selection_idx - 1] == "NA":
+            if selection_list[selection_idx] == "NA":
+                pass
+            else:
+                selection_print = selection_print.ljust(61, ".")
+                print(f"    {Style.RESET_ALL}[{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} [ {Fore.BLUE}{selection_print}{Style.RESET_ALL} ]")
+                command_list.append("null")
+        print("\n" + footer_line + "\n")
+        print(f"[{Fore.CYAN}tsp/{destination_menu}/cmd{Style.RESET_ALL}] you are in {Fore.BLUE}{destination_menu}{Style.RESET_ALL}, enter your command [{Fore.MAGENTA}0-{len(command_list) - 1}{Style.RESET_ALL}]: ", end="")
+        cmd = int(input())
+    elif command == "command":
+        pass
+    menumaker(cmd, destination_menu, menu_names_list[cmd], 80, menu_list[cmd][0], menu_list[cmd][1], menu_list[cmd][2], menu_list[cmd][3], menu_list[cmd][4], menu_list[cmd][5])
 
-entered_cmd = menumaker("main_menu", 80, "components_menu", "finances_menu", "load/save/reset_menu")
-main_menu_command_list = ["display_status!", "components_menu", "finances_menu", "load/save/reset_menu"]
-components_menu_command_list = ["list_components", "add_components", "delete_components"]
-finances_menu_command_list = ["view current balance"]
+display_status = ["COMMAND_NAME", "NA", "NA", "NA", "NA", "NA"]
+main_menu = ["display_status!", "components_menu", "finances_menu", "system_operations_menu", "NA", "NA"]
+components_menu = ["list_components", "add_components", "delete_components", "NA", "NA", "NA"]
+finances_menu = ["deposit_money", "withdraw_money", "view_balance_logs", "NA", "NA", "NA"]
+system_operations_menu = ["load_database", "save_database", "reset_database", "NA", "NA", "NA"]
+menu_names_list = ["main_menu", "display_status!", "components_menu", "finances_menu", "system_operations_menu"]
+command_menu_list = ["components_menu", "finances_menu", "system_operations_menu"]
+menu_list = [main_menu, display_status, components_menu, finances_menu, system_operations_menu]
+# menu_dict = {"main_menu":main_menu, "components_menu":components_menu, "finances_menu":finances_menu}
+
+menumaker(99, "main_menu", "main_menu", 80, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
+# entered_cmd = menumaker("main_menu", 80, menu_dict["main_menu"][0], menu_dict["main_menu"][1], menu_dict["main_menu"][2], menu_dict["main_menu"][3], menu_dict["main_menu"][4], menu_dict["main_menu"][5])
 
 # while exit_code == False:
 #     current_menu = "main_menu"
