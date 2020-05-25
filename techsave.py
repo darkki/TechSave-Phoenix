@@ -153,7 +153,16 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
         print(f"quit! quit! quit!")
         return()
     elif previous_menu in command_menu_list and not cmd_entered == 0 or previous_menu == "main_menu" and cmd_entered == 1:
-        print(f"doing command!")
+        print(f"cmd: {cmd_entered} | dest_menu: {destination_menu} / prev_menu: {previous_menu} | s1 {selection_1} s2 {selection_2} s3 {selection_3} s4 {selection_4} s5 {selection_5} s6 {selection_6}")
+        # print(f"command: {previous_menu[cmd_entered]}")
+        if previous_menu == "components_menu":
+            print(f"your command: {components_menu[cmd_entered - 1]}")
+        elif previous_menu == "finances_menu":
+            print(f"your command: {finances_menu[cmd_entered - 1]}")
+        elif previous_menu == "system_operations_menu":
+            print(f"your command: {system_operations_menu[cmd_entered - 1]}")
+        elif previous_menu == "main_menu" and cmd_entered == 1: # display status
+            print(f"your command: {main_menu[cmd_entered - 1]}")
         return()
     elif destination_menu in menu_names_list or destination_menu in menu_names_list and cmd_entered == 99: # if traversing between menus
         print(header_line)
