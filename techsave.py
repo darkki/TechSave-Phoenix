@@ -142,7 +142,6 @@ tsp_ascii = """            ___________           .__      _________
                                 \/            \/     \/         \/     """
 
 def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 = "NA", selection_2 = "NA", selection_3 = "NA", selection_4 = "NA", selection_5 = "NA", selection_6 = "NA", command = "menu"):
-    os.system("cls")
     header_line = f"] {Style.BRIGHT}{app_info.name} {Style.RESET_ALL}v{Style.BRIGHT}{app_info.version} {Style.RESET_ALL}by{Style.BRIGHT} {app_info.by} {Style.RESET_ALL}["
     header_line = header_line.center(width + 24, "-")
     current_money = tsp_dict["finances"].get_balance()
@@ -152,22 +151,84 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
     if previous_menu == "main_menu" and cmd_entered == 0: # if exit TSP is pressed
         print(f"quit! quit! quit!")
         return()
-    elif previous_menu in command_menu_list and not cmd_entered == 0 or previous_menu == "main_menu" and cmd_entered == 1:
+    elif previous_menu in command_menu_list and not cmd_entered == 0 or previous_menu == "main_menu" and cmd_entered == 1: # if command is used
         print(f"cmd: {cmd_entered} | dest_menu: {destination_menu} / prev_menu: {previous_menu} | s1 {selection_1} s2 {selection_2} s3 {selection_3} s4 {selection_4} s5 {selection_5} s6 {selection_6}")
-        # print(f"command: {previous_menu[cmd_entered]}")
+        exec_cmd_line = f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/exec{Style.RESET_ALL}] you executed {Fore.BLUE}{components_menu[cmd_entered - 1]}{Style.RESET_ALL}, press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to return to {Fore.BLUE}{previous_menu}{Style.RESET_ALL}:"
         if previous_menu == "components_menu":
             print(f"your command: {components_menu[cmd_entered - 1]}")
+            if cmd_entered - 1 == 0: # list_components
+                os.system("cls")
+                print(header_line)
+                print(f"{Style.RESET_ALL}{Fore.CYAN}", end="")
+                print(tsp_ascii) #TODO: compact us!!
+                print(f"{Style.RESET_ALL}")
+                for item in tsp_dict["components"]:
+                    idx_int = int(tsp_dict["components"].index(item))
+                    print(f"    [ {Style.BRIGHT}{idx_int}{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
+                print("\n" + footer_line + "\n")
+                input(exec_cmd_line)
+                menumaker(2, "main_menu", "components_menu", 80, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
+            elif cmd_entered -1 == 1: # add_components
+                priority_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] enter {Fore.RED}priority{Style.RESET_ALL} of component [{Fore.MAGENTA}0-100{Style.RESET_ALL}]: "))
+                type_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] enter type of component ({Fore.YELLOW}CPU, GPU, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
+                name_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] enter name of component ({Fore.YELLOW}Ryzen 1600AF, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
+                price_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] enter price of component [{Fore.MAGENTA}NUMBER{Style.RESET_ALL}]: "))
+                url_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] enter url of component [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
+                input(f"blaablaablaa is this correct? and continue to save?") #TODO: add saving here!
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving {Fore.YELLOW}{type_str} {name_str}{Style.RESET_ALL} to database ... ", end="")
+                tsp_dict["components"].append(component(priority_int, type_str, url_str, name_str, price_int))
+                print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
+                input(exec_cmd_line)
+                menumaker(2, "main_menu", "components_menu", 80, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
+            elif cmd_entered -1 == 2: # delete_components
+                os.system("cls")
+                print(header_line)
+                print(f"{Style.RESET_ALL}{Fore.CYAN}", end="")
+                print(tsp_ascii)
+                print(f"{Style.RESET_ALL}")
+                idx_count = 0
+                for item in tsp_dict["components"]:
+                    idx_count += 1
+                    idx_int = int(tsp_dict["components"].index(item))
+                    print(f"    [ {Style.BRIGHT}{idx_int}{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
+                print("\n" + footer_line + "\n")
+                del_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] enter {Style.BRIGHT}INDEX{Style.RESET_ALL} of component to delete [{Fore.MAGENTA}0-{idx_count - 1}{Style.RESET_ALL}]: "))
+                del_print_type = tsp_dict["components"][del_int].type
+                del_print_name = tsp_dict["components"][del_int].name
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/del{Style.RESET_ALL}] deleting {Fore.YELLOW}{del_print_type}{Style.RESET_ALL} - {Fore.YELLOW}{del_print_name}{Style.RESET_ALL} ... ", end="")
+                del tsp_dict["components"][del_int]
+                print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
+                print(f"save changes to db?")
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="") #TODO: add saving here!
+                print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
+                input(exec_cmd_line)
+                menumaker(2, "main_menu", "components_menu", 80, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
         elif previous_menu == "finances_menu":
             print(f"your command: {finances_menu[cmd_entered - 1]}")
+            if cmd_entered - 1 == 0: # deposit_money
+                input(exec_cmd_line)
+            elif cmd_entered -1 == 1: # withdraw_money
+                input(exec_cmd_line)
+            elif cmd_entered -1 == 2: # view_balance_logs
+                input(exec_cmd_line)
         elif previous_menu == "system_operations_menu":
             print(f"your command: {system_operations_menu[cmd_entered - 1]}")
+            if cmd_entered - 1 == 0: # load_database
+                input(exec_cmd_line)
+            elif cmd_entered -1 == 1: # save_database
+                input(exec_cmd_line)
+            elif cmd_entered -1 == 2: # reset_database
+                input(exec_cmd_line)
         elif previous_menu == "main_menu" and cmd_entered == 1: # display status
             print(f"your command: {main_menu[cmd_entered - 1]}")
+            input(exec_cmd_line)
         return()
     elif destination_menu in menu_names_list or destination_menu in menu_names_list and cmd_entered == 99: # if traversing between menus
+        os.system("cls")
         print(header_line)
         print(f"{Style.RESET_ALL}{Fore.CYAN}", end="") # color of ascii-art text
         print(tsp_ascii)
+        print(f"{Style.RESET_ALL}")
         selection_list = [selection_1, selection_2, selection_3, selection_4, selection_5, selection_6]
         command_list = []
         if destination_menu == "main_menu":
@@ -193,12 +254,12 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
     menumaker(cmd, destination_menu, menu_names_list[cmd], 80, menu_list[cmd][0], menu_list[cmd][1], menu_list[cmd][2], menu_list[cmd][3], menu_list[cmd][4], menu_list[cmd][5])
 
 display_status = ["COMMAND_NAME", "NA", "NA", "NA", "NA", "NA"]
-main_menu = ["display_status!", "components_menu", "finances_menu", "system_operations_menu", "NA", "NA"]
+main_menu = ["display_status!", "components_menu", "finances_menu", "system_menu", "NA", "NA"]
 components_menu = ["list_components", "add_components", "delete_components", "NA", "NA", "NA"]
 finances_menu = ["deposit_money", "withdraw_money", "view_balance_logs", "NA", "NA", "NA"]
-system_operations_menu = ["load_database", "save_database", "reset_database", "NA", "NA", "NA"]
-menu_names_list = ["main_menu", "display_status!", "components_menu", "finances_menu", "system_operations_menu"]
-command_menu_list = ["components_menu", "finances_menu", "system_operations_menu"]
-menu_list = [main_menu, display_status, components_menu, finances_menu, system_operations_menu]
+system_menu = ["load_database", "save_database", "reset_database", "NA", "NA", "NA"]
+menu_names_list = ["main_menu", "display_status!", "components_menu", "finances_menu", "system_menu"]
+command_menu_list = ["components_menu", "finances_menu", "system_menu"]
+menu_list = [main_menu, display_status, components_menu, finances_menu, system_menu]
 
 menumaker(99, "main_menu", "main_menu", 80, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
