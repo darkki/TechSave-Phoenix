@@ -29,7 +29,7 @@ class component:
         self.name = name
         self.price = price
     def log(self, message):
-        log_append = open("log.txt", "a")
+        log_append = open("tsp.log", "a")
         log_append.write(f"[ {date_time_now} ] - [ {message} ]\n")
         log_append.close()
 
@@ -38,7 +38,7 @@ class money:
         self.log(f"new_balance_set : {balance}e")
         self.balance = balance
     def log(self, message):
-        log_append = open("log.txt", "a")
+        log_append = open("tsp.log", "a")
         log_append.write(f"[ {date_time_now} ] - [ {message} ]\n")
         log_append.close()
     def add_money(self, money_added, message = "no message given"):
@@ -53,7 +53,7 @@ class money:
         return(self.balance)
 
 def log(message):
-    log_append = open("log.txt", "a")
+    log_append = open("tsp.log", "a")
     log_append.write(f"[ {date_time_now} ] - [ {message} ]\n")
 
 def flashy_loader(load1, load2, load1_color, load2_color, finished, fin_color, length, pausemin = 0.2, pausemax = 0.4):
@@ -174,8 +174,7 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
                 name_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter name of component ({Fore.YELLOW}Ryzen 1600AF, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
                 price_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter price of component [{Fore.MAGENTA}NUMBER{Style.RESET_ALL}]: "))
                 url_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter url of component [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
-                input(f"blaablaablaa is this correct? and continue to save?") #TODO: add saving here!
-                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving {Fore.YELLOW}{type_str} {name_str}{Style.RESET_ALL} to database ... ", end="", flush=True)
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving {Fore.YELLOW}{type_str} {name_str}{Style.RESET_ALL} to database ... ", end="", flush=True) #TODO: add saving here!
                 tsp_dict["components"].append(component(priority_int, type_str, url_str, name_str, price_int))
                 print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
@@ -198,7 +197,6 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/del{Style.RESET_ALL}] deleting {Fore.YELLOW}{del_print_type}{Style.RESET_ALL} - {Fore.YELLOW}{del_print_name}{Style.RESET_ALL} ... ", end="", flush=True)
                 del tsp_dict["components"][del_int]
                 print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
-                print(f"save changes to db?")
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
                 print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
@@ -211,13 +209,24 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/proc{Style.RESET_ALL}] processing transaction ... ", end="", flush=True)
                 current_money = tsp_dict["finances"]money.add_money(deposit_int, message_str)
                 print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
-                print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/rslt{Style.RESET_ALL}] {Fore.GREEN}{deposit_int}e{Style.RESET_ALL} added to your account, your new balance is {Fore.GREEN}{current_money}e{Style.RESET_ALL}")
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/rslt{Style.RESET_ALL}] {Fore.GREEN}{deposit_int}e{Style.RESET_ALL} deposited to your account, your new balance is {Fore.GREEN}{current_money}e{Style.RESET_ALL}")
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
+                print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
                 menumaker(3, "main_menu", "finances_menu", 80, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
             elif cmd_entered -1 == 1: # withdraw_money
+                withdraw_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter amount of money to withdraw [{Fore.MAGENTA}NUMBER{Style.RESET_ALL}]: "))
+                message_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter message ({Fore.YELLOW}Needed food, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/proc{Style.RESET_ALL}] processing transaction ... ", end="", flush=True)
+                current_money = tsp_dict["finances"]money.withdraw_money(withdraw_int, message_str)
+                print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/rslt{Style.RESET_ALL}] {Fore.GREEN}{withdraw_int}e{Style.RESET_ALL} withdrawn to your account, your new balance is {Fore.GREEN}{current_money}e{Style.RESET_ALL}")
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
+                print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
                 menumaker(3, "main_menu", "finances_menu", 80, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
             elif cmd_entered -1 == 2: # view_balance_logs
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] ({Fore.RED}FUNCTION UNDER CONSTRUCTION{Style.RESET_ALL}) in meantime check ./tsp.log for logs")
                 input(exec_cmd_line)
                 menumaker(3, "main_menu", "finances_menu", 80, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
         elif previous_menu == "system_menu":
@@ -229,8 +238,40 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
             elif cmd_entered -1 == 2: # reset_database
                 input(exec_cmd_line)
         elif previous_menu == "main_menu" and cmd_entered == 1: # display status
-            print(f"your command: {main_menu[cmd_entered - 1]}")
+            os.system("cls")
+            print(header_line)
+            print(f"{Style.RESET_ALL}{Fore.CYAN}", end="")
+            print(tsp_ascii) #TODO: compact us!!
+            print(f"{Style.RESET_ALL}")
+            print("\n" + footer_line + "\n")
+            # print(f"[{Fore.CYAN}tsp/{previous_menu}/{main_menu[cmd_entered - 1]}/proc{Style.RESET_ALL}] processing everything needed to display status ... ", end="", flush=True)
+            money_available = current_money
+            money_spent = 0
+            tsp_dict["components"].sort(key=operator.attrgetter("priority"))
+            # print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
+            money_em_str = "SAVED_ENOUGH_FOR_THESE_ITEMS"
+            money_em_str = money_em_str.center(width - 6, ".")
+            print(f"    [ {money_em_str} ]")
+            for item in tsp_dict["components"]:
+                money_available -= int(item.price)
+                money_spent += int(item.price)
+                out_of_money = False
+                if money_available >= 0:
+                    print(f"    [ {Fore.GREEN}{money_spent}e | {Fore.GREEN}{money_available}{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
+                else:
+                    if out_of_money == True:
+                        money_nem_str = "MONEY_NEEDED_FOR_THESE_ITEMS"
+                        money_nem_str = money_nem_str.center(width - 6, ".")
+                        print(f"    [ {Fore.GREEN}{money_spent}e | {Fore.RED}{money_available}{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
+                        out_of_money = True
+                    else:
+                        print(f"    [ {Fore.GREEN}{money_spent}e | {Fore.RED}{money_available}{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
+            if out_of_money == False:
+                print(f"\n    [ {Fore.GREEN}Gongratulations!{Style.RESET_ALL} You have enought money to buy {Style.BRIGHT}everything!{Style.RESET_ALL} ( current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.GREEN}{money_spent}e{Style.RESET_ALL} / money_left: {Fore.GREEN}{current_money - money_spent}e{Style.RESET_ALL} ) ]")
+            else:
+                print(f"\n    [ {Fore.RED}Not enough money!{Style.RESET_ALL} You still need to save {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL} in order to afford everything! ( current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.RED}{money_spent}e{Style.RESET_ALL} / money_needed: {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL} ) ]")
             input(exec_cmd_line)
+            menumaker(99, "main_menu", "main_menu", 80, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
         return()
     elif destination_menu in menu_names_list or destination_menu in menu_names_list and cmd_entered == 99: # if traversing between menus
         os.system("cls")
