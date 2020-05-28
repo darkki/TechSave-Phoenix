@@ -235,6 +235,7 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
                     if load_db_answer_str == "YES":
                         print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_load{Style.RESET_ALL}] loading {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="", flush=True)
                         tsp_dict = pickle.load(open("./data.tsp", "rb"))
+                        log(f"database loaded from ./data.tsp")
                         print(f"[{Fore.GREEN}LOADED!{Style.RESET_ALL}]")
                         print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] data loaded from {Style.BRIGHT}./data.tsp{Style.RESET_ALL} {Fore.GREEN}succesful!{Style.RESET_ALL}")
                     else:
@@ -255,6 +256,7 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
                 if save_db_answer_str == "YES":
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_save{Style.RESET_ALL}] saving {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="", flush=True)
                     pickle.dump(tsp_dict, open("./data.tsp", "wb"))
+                    log(f"database saved to ./data.tsp")
                     print(f"[{Fore.GREEN}SAVED!{Style.RESET_ALL}]")
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] data saved to {Style.BRIGHT}./data.tsp{Style.RESET_ALL} {Fore.GREEN}succesfully!{Style.RESET_ALL}")
                 else:
@@ -268,6 +270,7 @@ def menumaker(cmd_entered, previous_menu, destination_menu, width, selection_1 =
                     tsp_dict = {}
                     tsp_dict["components"] = []
                     tsp_dict["finances"] = money(0)
+                    log(f"database resetted / default values initialized!")
                     print(f"[{Fore.GREEN}DONE!{Style.RESET_ALL}]")
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] default values {Fore.GREEN}initialized!{Style.RESET_ALL}")
                 else:
