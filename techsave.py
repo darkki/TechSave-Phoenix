@@ -289,30 +289,43 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
             money_spent = 0
             database["components"].sort(key=operator.attrgetter("priority"))
             # print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
-            # money_em_str = "COMPONENTS_YOU_CAN_PURCHASE"
-            money_em_str = "components_you_can_purchase"
-            money_em_str = money_em_str.center(width - 6, ".")
-            print(f" [ {money_em_str} ]\n")
+            money_em_str = "COMPONENTS_YOU_CAN_PURCHASE"
+            money_em_str = money_em_str.center(width - 8, ".")
+            print(f" {money_em_str} \n")
+            first_run = True
             for item in database["components"]:
                 money_available -= int(item.price)
+                money_available_print = str(money_available)
+                money_available_print += "e"
+                money_available_print = money_available_print.center(5, " ")
                 money_spent += int(item.price)
-                out_of_money = False
-                if money_available >= 0: #TODO: ljust or center lines under this!
-                    print(f" [ {Fore.GREEN}{money_spent}e | {Fore.GREEN}{money_available}e{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url} ]")
+                money_spent_print = str(money_spent)
+                money_spent_print += "e"
+                money_spent_print = money_spent_print.center(5, " ")
+                item_type_print = item.type.center(7, ".")
+                item_name_print = item.name.ljust(40, ".")
+                item_price_print = str(item.price)
+                item_price_print += "e"
+                item_price_print = item_price_print.center(5, " ")
+                item_priority_print = str(item.priority).center(5, " ")
+                item_url_print = item.url
+                if money_available >= 0:
+                    print(f" [ {Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [{Fore.YELLOW}{item_name_print}{Style.RESET_ALL}]\n [ {Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.GREEN}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {item_url_print}\n")
                 else:
-                    if out_of_money == True:
-                        # money_nem_str = "MONEY_NEEDED_FOR_THESE_COMPONENTS"
-                        money_nem_str = "money_needed_for_these_components"
-                        money_nem_str = money_nem_str.center(width - 6, ".")
-                        print(f"\n    [ {money_nem_str} ]\n")
-                        print(f"    [ {Fore.GREEN}{money_spent}e | {Fore.RED}{money_available}e{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
-                        out_of_money = True
+                    if first_run == True:
+                        money_nem_str = "MONEY_NEEDED_FOR_THESE_COMPONENTS"
+                        money_nem_str = money_nem_str.center(width - 8, ".")
+                        print(f"\n {money_nem_str} \n")
+                        print(f" [ {Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [{Fore.YELLOW}{item_name_print}{Style.RESET_ALL}]\n [ {Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.GREEN}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {item_url_print}\n")
+                        first_run = False
                     else:
-                        print(f"    [ {Fore.GREEN}{money_spent}e | {Fore.RED}{money_available}e{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
-            if out_of_money == False:
-                print(f"\n {Fore.GREEN}Gongratulations!{Style.RESET_ALL} You have enought money to buy {Style.BRIGHT}everything!{Style.RESET_ALL} [ current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.GREEN}{money_spent}e{Style.RESET_ALL} / money_left: {Fore.GREEN}{current_money - money_spent}e{Style.RESET_ALL} ]\n")
+                        print(f" [ {Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [{Fore.YELLOW}{item_name_print}{Style.RESET_ALL}]\n [ {Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.GREEN}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {item_url_print}\n")
+            if first_run == True:
+                print(f"current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.GREEN}{money_spent}e{Style.RESET_ALL} / money_left: {Fore.GREEN}{current_money - money_spent}e{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}Gongratulations!{Style.RESET_ALL} You have enought money to buy {Style.BRIGHT}everything!{Style.RESET_ALL}\n")
             else:
-                print(f"\n {Fore.RED}Not enough money!{Style.RESET_ALL} You still need to save {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL} in order to afford everything! [ current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.RED}{money_spent}e{Style.RESET_ALL} / money_needed: {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL} ]\n")
+                print(f"current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.RED}{money_spent}e{Style.RESET_ALL} / money_needed: {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL}")
+                print(f"{Fore.RED}Not enough money!{Style.RESET_ALL} You still need to save {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL} in order to afford everything!\n")
             input(exec_cmd_line)
             menumaker(database, 99, "main_menu", "main_menu", 80, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
         return()
