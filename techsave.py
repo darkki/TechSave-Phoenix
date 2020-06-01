@@ -152,7 +152,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
         print(f"quit! quit! quit!") #TODO: refine this!
         return()
     elif previous_menu in command_menu_list and not cmd_entered == 0 or previous_menu == "main_menu" and cmd_entered == 1: # if command is used
-        exec_cmd_line = f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/exec{Style.RESET_ALL}] you executed {Fore.BLUE}{components_menu[cmd_entered - 1]}{Style.RESET_ALL}, press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to return to {Fore.BLUE}{previous_menu}{Style.RESET_ALL}:"
+        exec_cmd_line = f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/exec{Style.RESET_ALL}] you executed {Fore.BLUE}{components_menu[cmd_entered - 1]}{Style.RESET_ALL}\n[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to return to {Fore.BLUE}{previous_menu}{Style.RESET_ALL}:"
         if previous_menu == "components_menu":
             if cmd_entered - 1 == 0: # list_components
                 os.system("cls")
