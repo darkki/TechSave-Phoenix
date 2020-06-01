@@ -129,17 +129,17 @@ print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] initialization completed in {Styl
 print(f"[{Fore.CYAN}tsp/init/main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
 # input() #! remember to activate this when finished!
 
-tsp_ascii = """            ___________           .__      _________                   
-            \__    ___/___   ____ |  |__  /   _____/____ ___  __ ____  
-              |    |_/ __ \_/ ___\|  |  \ \_____  \\__  \\  \/ // __ \ 
-              |    |\  ___/\  \___|   Y  \/        \/ __ \\   /\  ___/ 
-              |____| \___  >\___  >___|  /_______  (____  /\_/  \___  >
-                 ________\/.__  \/     \/        \/    .\/          \/ 
-                 \______   \  |__   ____   ____   ____ |__|__  ___     
-                  |     ___/  |  \ /  _ \_/ __ \ /    \|  \  \/  /     
-                  |    |   |   Y  (  <_> )  ___/|   |  \  |>    <      
-                  |____|   |___|  /\____/ \___  >___|  /__/__/\_ \     
-                                \/            \/     \/         \/     """
+tsp_ascii = """                ___________             .__       _________                      
+                \__    ___/____   ____  |  |__   /   _____/_____  ___  __  ____  
+                  |    | _/ __ \_/ ___\ |  |  \  \_____  \ \__  \ \  \/ /_/ __ \ 
+                  |    | \  ___/\  \___ |   Y  \ /        \ / __ \_\   / \  ___/ 
+                  |____|  \___  >\___  >|___|  //_______  /(____  / \_/   \___  >
+                     __________/.__  \/      \/         \/      .__           \/ 
+                     \______   \|  |__    ____    ____    ____  |__|___  ___     
+                      |     ___/|  |  \  /  _ \ _/ __ \  /    \ |  |\  \/  /     
+                      |    |    |   Y  \(  <_> )\  ___/ |   |  \|  | >    <      
+                      |____|    |___|  / \____/  \___  >|___|  /|__|/__/\_ \     
+                                     \/              \/      \/           \/     """
 
 def menumaker(database, cmd_entered, previous_menu, destination_menu, width, selection_1 = "NA", selection_2 = "NA", selection_3 = "NA", selection_4 = "NA", selection_5 = "NA", selection_6 = "NA", command = "menu"):
     header_line = f"] {Style.BRIGHT}{app_info.name} {Style.RESET_ALL}v{Style.BRIGHT}{app_info.version} {Style.RESET_ALL}by{Style.BRIGHT} {app_info.by} {Style.RESET_ALL}["
@@ -165,7 +165,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                     print(f"    [ {Style.BRIGHT}{idx_int}{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
                 print("\n" + footer_line + "\n")
                 input(exec_cmd_line)
-                menumaker(database, 2, "main_menu", "components_menu", 80, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
+                menumaker(database, 2, "main_menu", "components_menu", width, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
             elif cmd_entered -1 == 1: # add_components
                 priority_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter {Fore.RED}priority{Style.RESET_ALL} of component [{Fore.MAGENTA}0-100{Style.RESET_ALL}]: "))
                 type_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter type of component ({Fore.YELLOW}CPU, GPU, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
@@ -176,7 +176,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 database["components"].append(component(priority_int, type_str, url_str, name_str, price_int))
                 print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
-                menumaker(database, 2, "main_menu", "components_menu", 80, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
+                menumaker(database, 2, "main_menu", "components_menu", width, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
             elif cmd_entered -1 == 2: # delete_components
                 os.system("cls")
                 print(header_line)
@@ -198,7 +198,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
                 print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
-                menumaker(database, 2, "main_menu", "components_menu", 80, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
+                menumaker(database, 2, "main_menu", "components_menu", width, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
         elif previous_menu == "finances_menu":
             if cmd_entered - 1 == 0: # deposit_money
                 deposit_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter amount of money to deposit [{Fore.MAGENTA}NUMBER{Style.RESET_ALL}]: "))
@@ -210,7 +210,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
                 print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
-                menumaker(database, 3, "main_menu", "finances_menu", 80, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
+                menumaker(database, 3, "main_menu", "finances_menu", width, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
             elif cmd_entered -1 == 1: # withdraw_money
                 withdraw_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter amount of money to withdraw [{Fore.MAGENTA}NUMBER{Style.RESET_ALL}]: "))
                 message_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter message ({Fore.YELLOW}Needed food, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
@@ -221,11 +221,11 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
                 print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
-                menumaker(database, 3, "main_menu", "finances_menu", 80, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
+                menumaker(database, 3, "main_menu", "finances_menu", width, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
             elif cmd_entered -1 == 2: # view_balance_logs
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] ({Fore.RED}FUNCTION UNDER CONSTRUCTION{Style.RESET_ALL}) in meantime check ./tsp.log for logs")
                 input(exec_cmd_line)
-                menumaker(database, 3, "main_menu", "finances_menu", 80, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
+                menumaker(database, 3, "main_menu", "finances_menu", width, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
         elif previous_menu == "system_menu":
             if cmd_entered - 1 == 0: # load_database
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
@@ -244,7 +244,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                     print(f"[{Fore.RED}NOT_FOUND!{Style.RESET_ALL}]")
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] {Style.BRIGHT}./data.tsp{Style.RESET_ALL} not found so loading is not possible")
                 input(exec_cmd_line)
-                menumaker(database, 4, "main_menu", "system_menu", 80, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
+                menumaker(database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
             elif cmd_entered -1 == 1: # save_database
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
                 if path.isfile("./data.tsp") == True:
@@ -262,7 +262,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 else:
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] saving {Fore.RED}cancelled!{Style.RESET_ALL}")
                 input(exec_cmd_line)
-                menumaker(database, 4, "main_menu", "system_menu", 80, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
+                menumaker(database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
             elif cmd_entered -1 == 2: # reset_database
                 reset_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to continue? {Fore.RED}all non-saved data will be lost!{Style.RESET_ALL} type [{Fore.MAGENTA}YES{Style.RESET_ALL}] to reset database: "))
                 if reset_db_answer_str == "YES":
@@ -276,7 +276,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 else:
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] reset {Fore.RED}cancelled!{Style.RESET_ALL}")
                 input(exec_cmd_line)
-                menumaker(database, 4, "main_menu", "system_menu", 80, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
+                menumaker(database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
         elif previous_menu == "main_menu" and cmd_entered == 1: # display status
             os.system("cls")
             print(header_line)
@@ -289,9 +289,9 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
             money_spent = 0
             database["components"].sort(key=operator.attrgetter("priority"))
             # print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
-            money_em_str = "COMPONENTS_YOU_CAN_PURCHASE"
-            money_em_str = money_em_str.center(width - 8, ".")
-            print(f" {money_em_str} \n")
+            money_em_str = f":::[ {Fore.GREEN}MONEY.AVAILABLE.FOR.THESE.COMPONENTS {Fore.CYAN}]:::"
+            money_em_str = money_em_str.center(width + 9, ".")
+            print(f"{Fore.CYAN} {money_em_str}{Style.RESET_ALL} \n")
             first_run = True
             for item in database["components"]:
                 money_available -= int(item.price)
@@ -302,24 +302,26 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 money_spent_print = str(money_spent)
                 money_spent_print += "e"
                 money_spent_print = money_spent_print.center(5, " ")
-                item_type_print = item.type.center(7, ".")
-                item_name_print = item.name.ljust(40, ".")
+                item_type_print = item.type.center(7, " ")
+                item_name_print = item.name.ljust(65, ".")
                 item_price_print = str(item.price)
                 item_price_print += "e"
                 item_price_print = item_price_print.center(5, " ")
                 item_priority_print = str(item.priority).center(5, " ")
                 item_url_print = item.url
                 if money_available >= 0:
-                    print(f" [ {Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [{Fore.YELLOW}{item_name_print}{Style.RESET_ALL}]\n [ {Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.GREEN}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {item_url_print}\n")
+                    print(f" [ {Style.BRIGHT}{Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [ {Fore.YELLOW}{item_name_print}{Style.RESET_ALL} ]\n [ {Style.BRIGHT}{Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.GREEN}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {Style.BRIGHT}{Fore.BLUE}{item_url_print}{Style.RESET_ALL}\n")
                 else:
                     if first_run == True:
-                        money_nem_str = "MONEY_NEEDED_FOR_THESE_COMPONENTS"
-                        money_nem_str = money_nem_str.center(width - 8, ".")
-                        print(f"\n {money_nem_str} \n")
-                        print(f" [ {Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [{Fore.YELLOW}{item_name_print}{Style.RESET_ALL}]\n [ {Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.GREEN}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {item_url_print}\n")
+                        money_nem_str = f":::[ {Fore.RED}MONEY.NEEDED.FOR.THESE.COMPONENTS {Fore.CYAN}]:::"
+                        money_nem_str = money_nem_str.center(width + 9, ".")
+                        # jeejee = "TEST".center(width, ".")
+                        # print(jeejee)
+                        print(f"\n {Fore.CYAN}{money_nem_str}{Style.RESET_ALL} \n")
+                        print(f" [ {Style.BRIGHT}{Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [ {Fore.YELLOW}{item_name_print}{Style.RESET_ALL} ]\n [ {Style.BRIGHT}{Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.RED}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {Style.BRIGHT}{Fore.BLUE}{item_url_print}{Style.RESET_ALL}\n")
                         first_run = False
                     else:
-                        print(f" [ {Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [{Fore.YELLOW}{item_name_print}{Style.RESET_ALL}]\n [ {Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.GREEN}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {item_url_print}\n")
+                        print(f" [ {Style.BRIGHT}{Fore.RED}{item_priority_print}{Style.RESET_ALL} | {Fore.GREEN}{item_price_print}{Style.RESET_ALL} ] [{Fore.YELLOW}{item_type_print}{Style.RESET_ALL}] - [ {Fore.YELLOW}{item_name_print}{Style.RESET_ALL} ]\n [ {Style.BRIGHT}{Fore.GREEN}{money_spent_print}{Style.RESET_ALL} | {Fore.RED}{money_available_print}{Style.RESET_ALL} ] {Style.BRIGHT}-->{Style.RESET_ALL} {Style.BRIGHT}{Fore.BLUE}{item_url_print}{Style.RESET_ALL}\n")
             if first_run == True:
                 print(f"current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.GREEN}{money_spent}e{Style.RESET_ALL} / money_left: {Fore.GREEN}{current_money - money_spent}e{Style.RESET_ALL}")
                 print(f"{Fore.GREEN}Gongratulations!{Style.RESET_ALL} You have enought money to buy {Style.BRIGHT}everything!{Style.RESET_ALL}\n")
@@ -327,9 +329,9 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 print(f"current_balance: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / total_cost: {Fore.RED}{money_spent}e{Style.RESET_ALL} / money_needed: {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL}")
                 print(f"{Fore.RED}Not enough money!{Style.RESET_ALL} You still need to save {Fore.GREEN}{money_spent - current_money}e{Style.RESET_ALL} in order to afford everything!\n")
             input(exec_cmd_line)
-            menumaker(database, 99, "main_menu", "main_menu", 80, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
+            menumaker(database, 99, "main_menu", "main_menu", width, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
         return()
-    elif destination_menu in menu_names_list or destination_menu in menu_names_list and cmd_entered == 99: # if traversing between menus
+    elif destination_menu in menu_names_list or destination_menu in menu_names_list and cmd_entered == 99: #* traversing between menus
         os.system("cls")
         print(header_line)
         print(f"{Style.RESET_ALL}{Fore.CYAN}", end="") # color of ascii-art text
@@ -341,15 +343,12 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
             selection_list.insert(0, "exit_techsave_phoenix")
         elif destination_menu in menu_names_list:
             selection_list.insert(0, "exit_to_main_menu")
-        # for selection_idx in range(1, len(selection_list) + 1): # old
         for selection_idx in range(0, len(selection_list)):
-            # selection_print = selection_list[selection_idx - 1] # old
             selection_print = selection_list[selection_idx]
-            # if selection_list[selection_idx - 1] == "NA":
             if selection_list[selection_idx] == "NA":
                 pass
             else:
-                selection_print = selection_print.ljust(61, ".")
+                selection_print = selection_print.ljust(width - 21, ".")
                 print(f"    {Style.RESET_ALL}[{Fore.MAGENTA}{selection_idx}{Style.RESET_ALL}] {Style.BRIGHT}-->{Style.RESET_ALL} [ {Fore.BLUE}{selection_print}{Style.RESET_ALL} ]")
                 command_list.append("null")
         print("\n" + footer_line + "\n")
@@ -357,7 +356,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
         cmd = int(input())
     elif command == "command":
         pass
-    menumaker(database, cmd, destination_menu, menu_names_list[cmd], 80, menu_list[cmd][0], menu_list[cmd][1], menu_list[cmd][2], menu_list[cmd][3], menu_list[cmd][4], menu_list[cmd][5])
+    menumaker(database, cmd, destination_menu, menu_names_list[cmd], width, menu_list[cmd][0], menu_list[cmd][1], menu_list[cmd][2], menu_list[cmd][3], menu_list[cmd][4], menu_list[cmd][5])
 
 display_status = ["COMMAND_NAME", "NA", "NA", "NA", "NA", "NA"]
 main_menu = ["display_status!", "components_menu", "finances_menu", "system_menu", "NA", "NA"]
@@ -368,4 +367,4 @@ menu_names_list = ["main_menu", "display_status!", "components_menu", "finances_
 command_menu_list = ["components_menu", "finances_menu", "system_menu"]
 menu_list = [main_menu, display_status, components_menu, finances_menu, system_menu]
 
-menumaker(tsp_dict, 99, "main_menu", "main_menu", 80, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
+menumaker(tsp_dict, 99, "main_menu", "main_menu", 100, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
