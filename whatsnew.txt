@@ -1,16 +1,30 @@
-TechSave-Phoenix v23052020|Dev
+TechSave-Phoenix v0.1a
+- Basic functionality of app working!
+- Added logging to database operations
+- Revamped display status output
+- Improved/fixed/stylished UI
+- Fixed problems with UI width
+- Changed to parameter passing instead of relying on globals
+
+TechSave-Phoenix v20200528|Dev
+- Added menu command functions
+- Added logging to database operations
+- Added ascii-art text
+- Code improvements/fixes
+
+TechSave-Phoenix v20200523|Dev
 - Added flashy loader animation
 - Added progress-bar
 - Ascii-art text
 - Working basic menu traversing
 - Stylishing / Optimizations / Fixes / Re-Coding
 
-TechSave-Phoenix v14052020|Dev
+TechSave-Phoenix v20200514|Dev
 - Fixes & modifications
 - Added menu making function
 - Added basic loading/saving
 
-TechSave-Phoenix v13052020|Dev
+TechSave-Phoenix v20200513|Dev
 - Added very basic finance/component classes
 - Added color support
 - Added basic initialization

@@ -17,7 +17,7 @@ import random # module imported for randomness
 
 class app_info: # basic app info like version
     name = "TechSave Phoenix"
-    version = "23052020|Dev"
+    version = "0.1a"
     by = "darkk!"
 
 class component:
@@ -103,8 +103,9 @@ def progress_bar(lenght, finished, pausemin, pausemax):
             print(f"{Fore.GREEN}:", end="", flush=True)
 
 tic = time.time() # Initialization starts
+os.system("cls")
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] beginning {app_info.name} v{app_info.version} initialization ... ", end="", flush=True)
-# flashy_loader("INIT", "INIT", "BLUE", "GREEN", "READY!", "GREEN", 15, 0.1, 0.3) #! activate!
+flashy_loader("INIT", "INIT", "BLUE", "GREEN", "READY!", "GREEN", 15, 0.1, 0.2)
 print(f"[{Fore.CYAN}tsp/init/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
 if path.isfile("./data.tsp") == True:
     print(f"[{Fore.GREEN}FOUND!{Style.RESET_ALL}]")
@@ -122,12 +123,12 @@ else:
     pickle.dump(tsp_dict, open("./data.tsp", "wb"))
     print(f"[{Fore.GREEN}SAVED!{Style.RESET_ALL}]")
 print(f"[{Fore.CYAN}/tsp/init/db_crpt_chk{Style.RESET_ALL}] checking for database corruption ... ", end="", flush=True)
-# prgress_bar(18, "OK!", 0.1, 0.3) #! activate!
+progress_bar(16, "OK!", 0.1, 0.2)
 toc = time.time()
 tictoc = round(toc - tic, 3)
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] initialization completed in {Style.BRIGHT}{tictoc}s{Style.RESET_ALL}, welcome to {Style.BRIGHT}{app_info.name} v{app_info.version} {Style.RESET_ALL}by {Style.BRIGHT}{app_info.by}{Style.RESET_ALL}")
 print(f"[{Fore.CYAN}tsp/init/main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
-# input() #! remember to activate this when finished!
+input()
 
 tsp_ascii = """                ___________             .__       _________                      
                 \__    ___/____   ____  |  |__   /   _____/_____  ___  __  ____  
@@ -149,7 +150,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
     footer_line = footer_line.center(width + 17, "-")
     cmd = None
     if previous_menu == "main_menu" and cmd_entered == 0: # if exit TSP is pressed
-        print(f"quit! quit! quit!") #TODO: refine this!
+        print(f"[{Fore.CYAN}tsp/main_menu/quit{Style.RESET_ALL}] {Style.BRIGHT}EXITING{Style.RESET_ALL} {app_info.name} {app_info.version} ... [{Fore.GREEN}OK!{Style.RESET_ALL}]") #TODO: refine this!
         return()
     elif previous_menu in command_menu_list and not cmd_entered == 0 or previous_menu == "main_menu" and cmd_entered == 1: # if command is used
         exec_cmd_line = f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/exec{Style.RESET_ALL}] you executed {Fore.BLUE}{components_menu[cmd_entered - 1]}{Style.RESET_ALL}\n[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to return to {Fore.BLUE}{previous_menu}{Style.RESET_ALL}:"
@@ -172,7 +173,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 name_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter name of component ({Fore.YELLOW}Ryzen 1600AF, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
                 price_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter price of component [{Fore.MAGENTA}NUMBER{Style.RESET_ALL}]: "))
                 url_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter url of component [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
-                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving {Fore.YELLOW}{type_str} {name_str}{Style.RESET_ALL} to database ... ", end="", flush=True) #TODO: add saving here!
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving {Fore.YELLOW}{type_str} - {name_str}{Style.RESET_ALL} to database ... ", end="", flush=True) #TODO: add saving here!
                 database["components"].append(component(priority_int, type_str, url_str, name_str, price_int))
                 print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
                 input(exec_cmd_line)
