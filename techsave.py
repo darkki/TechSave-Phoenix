@@ -105,7 +105,7 @@ def progress_bar(lenght, finished, pausemin, pausemax):
 tic = time.time() # Initialization starts
 os.system("cls")
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] beginning {app_info.name} v{app_info.version} initialization ... ", end="", flush=True)
-flashy_loader("INIT", "INIT", "BLUE", "GREEN", "READY!", "GREEN", 15, 0.1, 0.2)
+# flashy_loader("INIT", "INIT", "BLUE", "GREEN", "READY!", "GREEN", 15, 0.1, 0.2)
 print(f"[{Fore.CYAN}tsp/init/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
 if path.isfile("./data.tsp") == True:
     print(f"[{Fore.GREEN}FOUND!{Style.RESET_ALL}]")
@@ -122,13 +122,13 @@ else:
     print(f"[{Fore.CYAN}tsp/init/data_save{Style.RESET_ALL}] saving {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="", flush=True)
     pickle.dump(tsp_dict, open("./data.tsp", "wb"))
     print(f"[{Fore.GREEN}SAVED!{Style.RESET_ALL}]")
-print(f"[{Fore.CYAN}/tsp/init/db_crpt_chk{Style.RESET_ALL}] checking for database corruption ... ", end="", flush=True)
-progress_bar(16, "OK!", 0.1, 0.2)
+# print(f"[{Fore.CYAN}/tsp/init/db_crpt_chk{Style.RESET_ALL}] checking for database corruption ... ", end="", flush=True)
+# progress_bar(16, "OK!", 0.1, 0.2)
 toc = time.time()
 tictoc = round(toc - tic, 3)
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] initialization completed in {Style.BRIGHT}{tictoc}s{Style.RESET_ALL}, welcome to {Style.BRIGHT}{app_info.name} v{app_info.version} {Style.RESET_ALL}by {Style.BRIGHT}{app_info.by}{Style.RESET_ALL}")
 print(f"[{Fore.CYAN}tsp/init/main_menu{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to enter {Fore.BLUE}main menu{Style.RESET_ALL}: ", end="")
-input()
+# input()
 
 tsp_ascii = """                ___________             .__       _________                      
                 \__    ___/____   ____  |  |__   /   _____/_____  ___  __  ____  
@@ -146,8 +146,16 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
     header_line = f"] {Style.BRIGHT}{app_info.name} {Style.RESET_ALL}v{Style.BRIGHT}{app_info.version} {Style.RESET_ALL}by{Style.BRIGHT} {app_info.by} {Style.RESET_ALL}["
     header_line = header_line.center(width + 24, "-")
     current_money = database["finances"].get_balance()
-    footer_line = f"] {Style.BRIGHT}balance{Style.RESET_ALL}: {Fore.GREEN}{current_money}e{Style.RESET_ALL} [" #TODO: add components total price and remainder/overflow(?)
-    footer_line = footer_line.center(width + 17, "-")
+    money_difference = current_money
+    component_cost = 0
+    for item in database["components"]:
+        money_difference -= int(item.price)
+        component_cost += int(item.price)
+    if current_money >= component_cost:
+        footer_line = f"] {Style.BRIGHT}balance{Style.RESET_ALL}: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / {Style.BRIGHT}components cost{Style.RESET_ALL}: {Style.BRIGHT}{Fore.YELLOW}{component_cost}e{Style.RESET_ALL} / {Style.BRIGHT}difference{Style.RESET_ALL}: {Fore.GREEN}+{current_money - component_cost}e{Style.RESET_ALL} ["
+    else:
+        footer_line = f"] {Style.BRIGHT}balance{Style.RESET_ALL}: {Fore.GREEN}{current_money}e{Style.RESET_ALL} / {Style.BRIGHT}components cost{Style.RESET_ALL}: {Style.BRIGHT}{Fore.YELLOW}{component_cost}e{Style.RESET_ALL} / {Style.BRIGHT}difference{Style.RESET_ALL}: {Fore.RED}{current_money - component_cost}e{Style.RESET_ALL} ["
+    footer_line = footer_line.center(width + 55, "-")
     cmd = None
     if previous_menu == "main_menu" and cmd_entered == 0: # if exit TSP is pressed
         print(f"[{Fore.CYAN}tsp/main_menu/quit{Style.RESET_ALL}] {Style.BRIGHT}EXITING{Style.RESET_ALL} {app_info.name} {app_info.version} ... [{Fore.GREEN}OK!{Style.RESET_ALL}]") #TODO: refine this!
