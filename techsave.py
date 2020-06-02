@@ -102,6 +102,25 @@ def progress_bar(lenght, finished, pausemin, pausemax):
             time.sleep(random.uniform(pausemin, pausemax))
             print(f"{Fore.GREEN}:", end="", flush=True)
 
+def save_to_file(previous_menu, menu_num, cmd_entered, database):
+    save_query = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{menu_list[menu_num][cmd_entered - 1]}/query{Style.RESET_ALL}] do you want to save data to {Style.BRIGHT}./data.tsp{Style.RESET_ALL}? [{Fore.MAGENTA}Y{Style.RESET_ALL}/{Fore.MAGENTA}N{Style.RESET_ALL}]: "))
+    if save_query == "Y":
+        print(f"[{Fore.CYAN}tsp/{previous_menu}/{menu_list[menu_num][cmd_entered - 1]}/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
+        if path.isfile("./data.tsp") == True:
+            print(f"[{Fore.GREEN}FOUND!{Style.RESET_ALL}]")
+            save_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{menu_list[menu_num][cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to overwrite {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ? {Fore.RED}all data will be overridden!{Style.RESET_ALL} [{Fore.MAGENTA}Y{Style.RESET_ALL}/{Fore.MAGENTA}N{Style.RESET_ALL}] : "))
+        else:
+            print(f"[{Fore.RED}NOT_FOUND!{Style.RESET_ALL}]")
+            save_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{menu_list[menu_num][cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to continue to save database to file {Style.BRIGHT}./data.tsp{Style.RESET_ALL}? [{Fore.MAGENTA}Y{Style.RESET_ALL}/{Fore.MAGENTA}N{Style.RESET_ALL}]: "))
+        if save_db_answer_str == "Y":
+            print(f"[{Fore.CYAN}tsp/{previous_menu}/{menu_list[menu_num][cmd_entered - 1]}/data_save{Style.RESET_ALL}] saving {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="", flush=True)
+            pickle.dump(database, open("./data.tsp", "wb"))
+            log(f"database saved to ./data.tsp")
+            print(f"[{Fore.GREEN}SAVED!{Style.RESET_ALL}]")
+        else:
+            print(f"[{Fore.CYAN}tsp/{previous_menu}/{menu_list[menu_num][cmd_entered - 1]}/msg{Style.RESET_ALL}] saving {Fore.RED}cancelled!{Style.RESET_ALL}")
+    return()
+
 tic = time.time() # Initialization starts
 os.system("cls")
 print(f"[{Fore.CYAN}tsp/init{Style.RESET_ALL}] beginning {app_info.name} v{app_info.version} initialization ... ", end="", flush=True)
@@ -178,9 +197,10 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 name_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter name of component ({Fore.YELLOW}Ryzen 1600AF, etc.{Style.RESET_ALL}) [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
                 price_int = int(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter price of component [{Fore.MAGENTA}NUMBER{Style.RESET_ALL}]: "))
                 url_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/input{Style.RESET_ALL}] enter url of component [{Fore.MAGENTA}TEXT{Style.RESET_ALL}]: "))
-                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving {Fore.YELLOW}{type_str} - {name_str}{Style.RESET_ALL} to database ... ", end="", flush=True) #TODO: add saving here!
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/db_update{Style.RESET_ALL}] adding {Fore.YELLOW}{type_str} - {name_str}{Style.RESET_ALL} to database ... ", end="", flush=True)
                 database["components"].append(component(priority_int, type_str, url_str, name_str, price_int))
-                print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
+                print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
+                save_to_file(previous_menu, 2, cmd_entered, database)
                 input(exec_cmd_line)
                 menumaker(database, 2, "main_menu", "components_menu", width, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
             elif cmd_entered -1 == 2: # delete_components
@@ -198,8 +218,9 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/del{Style.RESET_ALL}] deleting {Fore.YELLOW}{del_print_type}{Style.RESET_ALL} - {Fore.YELLOW}{del_print_name}{Style.RESET_ALL} ... ", end="", flush=True)
                 del database["components"][del_int]
                 print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
-                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
-                print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
+                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/db_update{Style.RESET_ALL}] updating changes to database ... ", end="", flush=True)
+                print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
+                save_to_file(previous_menu, 3, cmd_entered, database)
                 input(exec_cmd_line)
                 menumaker(database, 2, "main_menu", "components_menu", width, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
         elif previous_menu == "finances_menu":
@@ -210,8 +231,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 current_money = database["finances"].add_money(deposit_int, message_str)
                 print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/rslt{Style.RESET_ALL}] {Fore.GREEN}{deposit_int}e{Style.RESET_ALL} deposited to your account, your new balance is {Fore.GREEN}{current_money}e{Style.RESET_ALL}")
-                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
-                print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
+                save_to_file(previous_menu, 1, cmd_entered, database)
                 input(exec_cmd_line)
                 menumaker(database, 3, "main_menu", "finances_menu", width, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
             elif cmd_entered -1 == 1: # withdraw_money
@@ -221,8 +241,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 current_money = database["finances"].withdraw_money(withdraw_int, message_str)
                 print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{finances_menu[cmd_entered - 1]}/rslt{Style.RESET_ALL}] {Fore.GREEN}{withdraw_int}e{Style.RESET_ALL} withdrawn to your account, your new balance is {Fore.GREEN}{current_money}e{Style.RESET_ALL}")
-                print(f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/save{Style.RESET_ALL}] saving changes to database ... ", end="", flush=True) #TODO: add saving here!
-                print(f"[{Fore.RED}FAIL!{Style.RESET_ALL}]")
+                save_to_file(previous_menu, 2, cmd_entered, database)
                 input(exec_cmd_line)
                 menumaker(database, 3, "main_menu", "finances_menu", width, menu_list[3][0], menu_list[3][1], menu_list[3][2], menu_list[3][3], menu_list[3][4], menu_list[3][5])
             elif cmd_entered -1 == 2: # view_balance_logs
@@ -234,7 +253,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
                 if path.isfile("./data.tsp") == True:
                     print(f"[{Fore.GREEN}FOUND!{Style.RESET_ALL}]")
-                    load_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to continue? {Fore.RED}all data will be lost!{Style.RESET_ALL} type [{Fore.MAGENTA}YES{Style.RESET_ALL}] to load database from file {Style.BRIGHT}./data.tsp{Style.RESET_ALL}: "))
+                    load_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] do you want to load database from file {Style.BRIGHT}./data.tsp{Style.RESET_ALL}? {Fore.RED}all data will be lost!{Style.RESET_ALL} [{Fore.MAGENTA}Y{Style.RESET_ALL}/{Fore.MAGENTA}N{Style.RESET_ALL}]: "))
                     if load_db_answer_str == "YES":
                         print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_load{Style.RESET_ALL}] loading {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="", flush=True)
                         database = pickle.load(open("./data.tsp", "rb"))
@@ -252,11 +271,11 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
                 if path.isfile("./data.tsp") == True:
                     print(f"[{Fore.GREEN}FOUND!{Style.RESET_ALL}]")
-                    save_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to continue? {Fore.RED}all data will be overridden!{Style.RESET_ALL} type [{Fore.MAGENTA}YES{Style.RESET_ALL}] to save database to file {Style.BRIGHT}./data.tsp{Style.RESET_ALL}: "))
+                    save_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to overwrite {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ? {Fore.RED}all data will be overridden!{Style.RESET_ALL} [{Fore.MAGENTA}Y{Style.RESET_ALL}/{Fore.MAGENTA}N{Style.RESET_ALL}] : "))
                 else:
                     print(f"[{Fore.RED}NOT_FOUND!{Style.RESET_ALL}]")
-                    save_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to continue? type [{Fore.MAGENTA}YES{Style.RESET_ALL}] to save database to file {Style.BRIGHT}./data.tsp{Style.RESET_ALL}: "))
-                if save_db_answer_str == "YES":
+                    save_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to continue to save database to file {Style.BRIGHT}./data.tsp{Style.RESET_ALL}? [{Fore.MAGENTA}Y{Style.RESET_ALL}/{Fore.MAGENTA}N{Style.RESET_ALL}]: "))
+                if save_db_answer_str == "Y":
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_save{Style.RESET_ALL}] saving {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="", flush=True)
                     pickle.dump(database, open("./data.tsp", "wb"))
                     log(f"database saved to ./data.tsp")
@@ -267,8 +286,8 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 input(exec_cmd_line)
                 menumaker(database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
             elif cmd_entered -1 == 2: # reset_database
-                reset_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] are you sure you want to continue? {Fore.RED}all non-saved data will be lost!{Style.RESET_ALL} type [{Fore.MAGENTA}YES{Style.RESET_ALL}] to reset database: "))
-                if reset_db_answer_str == "YES":
+                reset_db_answer_str = str(input(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/query{Style.RESET_ALL}] do you want to continue? {Fore.RED}all non-saved data will be lost!{Style.RESET_ALL} [{Fore.MAGENTA}Y{Style.RESET_ALL}/{Fore.MAGENTA}N{Style.RESET_ALL}]: "))
+                if reset_db_answer_str == "Y":
                     print(f"[{Fore.CYAN}tsp/{previous_menu}/{system_menu[cmd_entered - 1]}/data_reset{Style.RESET_ALL}] resetting database ... ", end="", flush=True)
                     database = {}
                     database["components"] = []
