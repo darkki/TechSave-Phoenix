@@ -158,17 +158,14 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
     footer_line = footer_line.center(width + 55, "-")
     cmd = None
     if previous_menu == "main_menu" and cmd_entered == 0: # if exit TSP is pressed
-        print(f"[{Fore.CYAN}tsp/main_menu/quit{Style.RESET_ALL}] {Style.BRIGHT}EXITING{Style.RESET_ALL} {app_info.name} {app_info.version} ... [{Fore.GREEN}OK!{Style.RESET_ALL}]") #TODO: refine this!
+        print(f"[{Fore.CYAN}tsp/main_menu/quit{Style.RESET_ALL}] {Style.BRIGHT}EXITING{Style.RESET_ALL} {app_info.name} {app_info.version} ... [{Fore.GREEN}OK!{Style.RESET_ALL}]")
         return()
     elif previous_menu in command_menu_list and not cmd_entered == 0 or previous_menu == "main_menu" and cmd_entered == 1: # if command is used
         exec_cmd_line = f"[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/exec{Style.RESET_ALL}] you executed {Fore.BLUE}{components_menu[cmd_entered - 1]}{Style.RESET_ALL}\n[{Fore.CYAN}tsp/{previous_menu}/{components_menu[cmd_entered - 1]}/cmd{Style.RESET_ALL}] press [{Fore.MAGENTA}ENTER{Style.RESET_ALL}] to return to {Fore.BLUE}{previous_menu}{Style.RESET_ALL}:"
         if previous_menu == "components_menu":
             if cmd_entered - 1 == 0: # list_components
                 os.system("cls")
-                print(header_line)
-                print(f"{Style.RESET_ALL}{Fore.CYAN}", end="")
-                print(tsp_ascii) #TODO: compact us!!
-                print(f"{Style.RESET_ALL}")
+                print(f"{header_line}\n{Style.RESET_ALL}{Fore.CYAN}\n{tsp_ascii}\n{Style.RESET_ALL}")
                 for item in database["components"]:
                     idx_int = int(database["components"].index(item))
                     print(f"    [ {Style.BRIGHT}{idx_int}{Style.RESET_ALL} ] {Fore.YELLOW}{item.type}{Style.RESET_ALL} - {Fore.YELLOW}{item.name}{Style.RESET_ALL} / {Fore.GREEN}{item.price}e{Style.RESET_ALL} ({Fore.RED}{item.priority}{Style.RESET_ALL}) - {item.url}")
@@ -188,10 +185,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 menumaker(database, 2, "main_menu", "components_menu", width, menu_list[2][0], menu_list[2][1], menu_list[2][2], menu_list[2][3], menu_list[2][4], menu_list[2][5])
             elif cmd_entered -1 == 2: # delete_components
                 os.system("cls")
-                print(header_line)
-                print(f"{Style.RESET_ALL}{Fore.CYAN}", end="")
-                print(tsp_ascii) #TODO: compact us!!
-                print(f"{Style.RESET_ALL}")
+                print(f"{header_line}\n{Style.RESET_ALL}{Fore.CYAN}\n{tsp_ascii}\n{Style.RESET_ALL}")
                 idx_count = 0
                 for item in database["components"]:
                     idx_count += 1
@@ -288,10 +282,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
                 menumaker(database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
         elif previous_menu == "main_menu" and cmd_entered == 1: # display status
             os.system("cls")
-            print(header_line)
-            print(f"{Style.RESET_ALL}{Fore.CYAN}", end="")
-            print(tsp_ascii) #TODO: compact us!!
-            print(f"{Style.RESET_ALL}")
+            print(f"{header_line}\n{Style.RESET_ALL}{Fore.CYAN}\n{tsp_ascii}\n{Style.RESET_ALL}")
             # print("\n" + footer_line + "\n")
             # print(f"[{Fore.CYAN}tsp/{previous_menu}/{main_menu[cmd_entered - 1]}/proc{Style.RESET_ALL}] processing everything needed to display status ... ", end="", flush=True)
             money_available = current_money
@@ -342,10 +333,7 @@ def menumaker(database, cmd_entered, previous_menu, destination_menu, width, sel
         return()
     elif destination_menu in menu_names_list or destination_menu in menu_names_list and cmd_entered == 99: #* traversing between menus
         os.system("cls")
-        print(header_line)
-        print(f"{Style.RESET_ALL}{Fore.CYAN}", end="") # color of ascii-art text
-        print(tsp_ascii) #TODO: compact us!!
-        print(f"{Style.RESET_ALL}")
+        print(f"{header_line}\n{Style.RESET_ALL}{Fore.CYAN}\n{tsp_ascii}\n{Style.RESET_ALL}")
         selection_list = [selection_1, selection_2, selection_3, selection_4, selection_5, selection_6]
         command_list = []
         if destination_menu == "main_menu":
