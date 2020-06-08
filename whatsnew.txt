@@ -1,3 +1,12 @@
+TechSave-Phoenix v0.14a
+- Added status-line which displays autosave/saved changes status
+- Added component cost/difference to footer line
+- Added saving to file
+- Added autosave option
+- Added saving of settings
+- Improved UI
+- Minor fixes and improvements
+
 TechSave-Phoenix v0.1a
 - Basic functionality of app working!
 - Added logging to database operations

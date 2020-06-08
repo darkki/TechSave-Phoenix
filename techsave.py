@@ -17,7 +17,7 @@ import random # module imported for randomness
 
 class app_info: # basic app info like version
     name = "TechSave Phoenix"
-    version = "0.1a"
+    version = "0.14a"
     by = "darkk!"
 
 class component:
