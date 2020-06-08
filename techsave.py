@@ -152,6 +152,7 @@ else:
     tsp_dict = {}
     tsp_dict["components"] = []
     tsp_dict["finances"] = money(0)
+    tsp_dict["autosave"] = False
     print(f"[{Fore.GREEN}DONE!{Style.RESET_ALL}]")
     print(f"[{Fore.CYAN}tsp/init/data_save{Style.RESET_ALL}] saving {Style.BRIGHT}./data.tsp{Style.RESET_ALL} ... ", end="", flush=True)
     pickle.dump(tsp_dict, open("./data.tsp", "wb"))
@@ -192,7 +193,6 @@ def menumaker(saved, autosave, database, cmd_entered, previous_menu, destination
     else:
         autosave_str = f"{Fore.RED}autosave_off{Style.RESET_ALL}"
     status_line = f"{Fore.BLUE}...::[{Style.RESET_ALL} {autosave_str} {Fore.BLUE}|{Style.RESET_ALL} {unsaved_str} {Fore.BLUE}]::...{Style.RESET_ALL}".center(width + 45, " ")
-    ex_line = f"....".center(width, ".")
     current_money = database["finances"].get_balance()
     money_difference = current_money
     component_cost = 0
@@ -314,9 +314,9 @@ def menumaker(saved, autosave, database, cmd_entered, previous_menu, destination
                     print(f"[{Fore.CYAN}tsp/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] {Style.BRIGHT}./data.tsp{Style.RESET_ALL} not found so loading is not possible")
                 back_menu = input(exec_cmd_line)
                 if back_menu == "0":
-                    menumaker(saved, autosave, database, 99, "main_menu", "main_menu", width, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
+                    menumaker(saved, database["autosave"], database, 99, "main_menu", "main_menu", width, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
                 else:
-                    menumaker(saved, autosave, database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
+                    menumaker(saved, database["autosave"], database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
             elif cmd_entered -1 == 1: # save_database
                 print(f"[{Fore.CYAN}tsp/{system_menu[cmd_entered - 1]}/data_check{Style.RESET_ALL}] checking if {Style.BRIGHT}./data.tsp{Style.RESET_ALL} exists ... ", end="", flush=True)
                 if path.isfile("./data.tsp") == True:
@@ -346,6 +346,7 @@ def menumaker(saved, autosave, database, cmd_entered, previous_menu, destination
                     database = {}
                     database["components"] = []
                     database["finances"] = money(0)
+                    database["autosave"] = False
                     saved = True
                     log(f"database resetted / default values initialized!")
                     print(f"[{Fore.GREEN}DONE!{Style.RESET_ALL}]")
@@ -354,18 +355,20 @@ def menumaker(saved, autosave, database, cmd_entered, previous_menu, destination
                     print(f"[{Fore.CYAN}tsp/{system_menu[cmd_entered - 1]}/msg{Style.RESET_ALL}] reset {Fore.RED}cancelled!{Style.RESET_ALL}")
                 back_menu = input(exec_cmd_line)
                 if back_menu == "0":
-                    menumaker(saved, autosave, database, 99, "main_menu", "main_menu", width, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
+                    menumaker(saved, database["autosave"], database, 99, "main_menu", "main_menu", width, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
                 else:
-                    menumaker(saved, autosave, database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
+                    menumaker(saved, database["autosave"], database, 4, "main_menu", "system_menu", width, menu_list[4][0], menu_list[4][1], menu_list[4][2], menu_list[4][3], menu_list[4][4], menu_list[4][5])
             elif cmd_entered -1 == 3: # autosave toggle
                 if menu_list[4][3] == "toggle_autosave_on":
                     print(f"[{Fore.CYAN}tsp/{system_menu[cmd_entered - 1]}/autosave_toggle{Style.RESET_ALL}] switching autosave on ... ", end="", flush=True)
                     autosave = True
+                    database["autosave"] = True
                     menu_list[4][3] = "toggle_autosave_off"
                     print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
                 elif menu_list[4][3] == "toggle_autosave_off":
                     print(f"[{Fore.CYAN}tsp/{system_menu[cmd_entered - 1]}/autosave_toggle{Style.RESET_ALL}] switching autosave off ... ", end="", flush=True)
                     autosave = False
+                    database["autosave"] = False
                     menu_list[4][3] = "toggle_autosave_on"
                     print(f"[{Fore.GREEN}OK!{Style.RESET_ALL}]")
                 back_menu = input(exec_cmd_line)
@@ -455,4 +458,4 @@ menu_names_list = ["main_menu", "display_status!", "components_menu", "finances_
 command_menu_list = ["components_menu", "finances_menu", "system_menu"]
 menu_list = [main_menu, display_status, components_menu, finances_menu, system_menu]
 
-menumaker(True, False, tsp_dict, 99, "main_menu", "main_menu", 100, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
+menumaker(True, tsp_dict["autosave"], tsp_dict, 99, "main_menu", "main_menu", 100, menu_list[0][0], menu_list[0][1], menu_list[0][2], menu_list[0][3], menu_list[0][4], menu_list[0][5])
